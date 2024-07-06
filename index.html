@@ -140,28 +140,37 @@
             line-height: 20px;
         }
 
-        .remarks {
+        .remarks, .remarks1 {
             width: 300px;
             height: 630px;
             background: #ddd;
             border: 1px solid #ccc;
         }
 
-        .remarks-title {
+        .remarks-title, .remarks-title1 {
             line-height: 30px;
             text-align: center;
             font-size: 14px;
         }
+        .remarks-sub{
+            font-size: 14px;
+            padding: 8px 15px;
+        }
 
-        .remarks-symbol, .remarks-remark, .remarks-otherRemark {
+        .remarks-symbol, .remarks-remark, .remarks-otherRemark, .remarks-symbol1, .remarks-remark1, .remarks-otherRemark1 {
             text-indent: 25px;
             line-height: 24px;
             font-size: 14px;
             margin-top: 10px;
             padding: 10px 15px;
         }
-        .activeType{
+
+        .activeType {
             background: #409eff;
+        }
+
+        .clickType {
+            background: #00bcd4;
         }
     </style>
 </head>
@@ -170,10 +179,17 @@
     <div class="left"></div>
     <div class="right"></div>
     <div class="remarks">
+        <div class="remarks-sub">六爻结果</div>
         <div class="remarks-title"></div>
         <div class="remarks-symbol"></div>
         <div class="remarks-remark"></div>
         <div class="remarks-otherRemark"></div>
+    </div>
+    <div class="remarks1">
+        <div class="remarks-title1"></div>
+        <div class="remarks-symbol1"></div>
+        <div class="remarks-remark1"></div>
+        <div class="remarks-otherRemark1"></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -186,6 +202,8 @@
         // 主体
         mainBody();
 
+        // 点击事件
+        clickBody();
     });
 
     // 按钮
@@ -212,12 +230,11 @@
             if (CR.length === 6) {
                 $(".right .right-item").each(function () {
                     if ($(this).attr("data-type") === CR.join(",")) {
-                        console.log($(this).attr("data-remark"));
                         $(".remarks-title").text($(this).find("h3").text());
                         $(".remarks-symbol").text($(this).attr("data-symbol"));
                         $(".remarks-remark").text($(this).attr("data-remark"));
                         $(".remarks-otherRemark").text($(this).attr("data-otherRemark"));
-                        $(this).addClass('activeType').siblings().removeClass('activeType')
+                        $(this).addClass("activeType").siblings().removeClass("activeType");
                     }
                 });
             }
@@ -367,6 +384,25 @@
         return `<h2>${str}</h2>`;
     }
 
+    // 点击事件
+    function clickBody() {
+        $(".right .right-item").each(function () {
+            $(this).click(function () {
+                $(this).toggleClass("clickType").siblings().removeClass("clickType");
+                if ($(this).attr("data-click") === "1") {
+                    $(this).attr("data-click", "0");
+                    $(".remarks1").hide();
+                } else {
+                    $(this).attr("data-click", "1");
+                    $(".remarks1").show();
+                    $(".remarks-title1").text($(this).find("h3").text());
+                    $(".remarks-symbol1").text($(this).attr("data-symbol"));
+                    $(".remarks-remark1").text($(this).attr("data-remark"));
+                    $(".remarks-otherRemark1").text($(this).attr("data-otherRemark"));
+                }
+            });
+        });
+    }
 
 </script>
 </body>
